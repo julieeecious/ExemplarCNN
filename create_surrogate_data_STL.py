@@ -23,26 +23,25 @@ from tqdm import tqdm
 np.random.seed(42)
 
 # General variables
-root_path = './surrogate_dataset/'
+root_path = './ExemplarCNN/surrogate_dataset/'
 classes_path = join(root_path, 'classes_folder_16000_set')
-mask_path = join(root_path, 'class_folder_16000_set_edge') # mask_folder
-nb_classes = 16000   # this will be the number of classes
+mask_path = join(root_path, 'class_folder_16000_set_edge')  # mask_folder
+nb_classes = 16000  # this will be the number of classes
 
-#nb_samples = 125   # This correspond to the number of transformations
+# nb_samples = 125   # This correspond to the number of transformations
 # I reduced to 112 to reduce the generation and training time... The split will be 90/10
 nb_samples = 112
-
 
 # importing transformations
 sys.path.append('./')
 from transformations import Rotate_and_flip, \
-HSV_contrast_2, HSV_color, PCA_rand_always, Get_coord_from_mask, \
-anchor_crop_gauss, Scale_images_and_anchor
+    HSV_contrast_2, HSV_color, PCA_rand_always, Get_coord_from_mask, \
+    anchor_crop_gauss, Scale_images_and_anchor
 
 # initializing transformations
 output_size = 32
-max_scale = 1.4 # measure for STL10
-translation = 0.2 # 0.2 # measure for STL10
+max_scale = 1.4  # measure for STL10
+translation = 0.2  # 0.2 # measure for STL10
 
 pca_mult = (0.5, 2)
 max_rot = 20
@@ -66,7 +65,7 @@ hsv_color = HSV_color(hsv_add_color)
 labels = os.listdir(classes_path)
 labels.sort()
 
-print ('%d classes loaded...' %len(labels))
+print('%d classes loaded...' % len(labels))
 st = time.time()
 
 # Here start a for loop to go through all the classes
@@ -78,7 +77,7 @@ for label_ind in tqdm(labels):
     mask = Image.open(mask_path + '/' + str(label_ind).zfill(len(str(nb_classes)))[:-4] + '_edge.png')
 
     anchor = Get_coord_from_mask(mask, 1)
-    min_scale = 0.7#output_size/np.min(image.size) # 0.7 # measure for STL10 images (96x96)
+    min_scale = 0.7  # output_size/np.min(image.size) # 0.7 # measure for STL10 images (96x96)
     scales = (min_scale, max_scale)
     scaling = Scale_images_and_anchor(output_size, scales)
 
@@ -99,5 +98,5 @@ for label_ind in tqdm(labels):
     # finish the for loop that goes through the transformations
 # finish the loop that goes through the images
 nd = time.time()
-print (str(nd-st) + 'seconds')
-print "Done!"
+print(str(nd - st) + 'seconds')
+print("Done!")

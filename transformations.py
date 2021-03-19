@@ -402,7 +402,7 @@ class PCA_rand(object):
 
 
             if len(im_np.shape) < 3:
-                print 'PCA not done'
+                print ('PCA not done')
                 return image
 
             # define pca for three dimensions
@@ -449,7 +449,7 @@ class PCA_rand_always(object):
 
 
         if len(im_np.shape) < 3:
-            print 'PCA not done'
+            print ('PCA not done')
             return image
 
         # define pca for three dimensions
@@ -542,20 +542,20 @@ class Cond_crop(object):
 
         # The following if and elses are to avoid croping out of the original image.
         if (x_coord > (im_np.shape[0] - self.out_size/2)):# or (x_coord < (self.out_size/2)):
-            x_coord = round(im_np.shape[0] - self.out_size/2)
+            x_coord = np.around(im_np.shape[0] - self.out_size/2)
         elif x_coord < (self.out_size/2):
-            x_coord = round(self.out_size/2)
+            x_coord = np.around(self.out_size/2)
         else:
-            x_coord = round(x_coord)
+            x_coord = np.around(x_coord)
 
         if (y_coord > (im_np.shape[1] - self.out_size/2)):# or (y_coord < (self.out_size/2)):
-            y_coord = round(im_np.shape[1] - self.out_size/2)
+            y_coord = np.around(im_np.shape[1] - self.out_size/2)
         elif y_coord < (self.out_size/2):
-            y_coord = round(self.out_size/2)
+            y_coord = np.around(self.out_size/2)
         else:
-            y_coord = round(y_coord)
+            y_coord = np.around(y_coord)
 
-        half_out = round(self.out_size/2)
+        half_out = np.around(self.out_size/2)
 
         im_crop = im_np[x_coord-half_out:(x_coord-half_out) + self.out_size,
                         y_coord-half_out:(y_coord-half_out) + self.out_size,:]
@@ -577,18 +577,18 @@ class Scale_images_and_coord(object):
         if np.random.uniform(-1, 1) < 0.5:
             scaling_factor = np.random.uniform(self.min_scaling, self.max_scaling)
 
-            scaled_size_x = round(image.size[0]*scaling_factor)
-            scaled_size_y = round(image.size[1]*scaling_factor)
-            coord_0_resized = round(coord[0]*scaling_factor)
-            coord_1_resized = round(coord[1]*scaling_factor)
+            scaled_size_x = np.around(image.size[0]*scaling_factor)
+            scaled_size_y = np.around(image.size[1]*scaling_factor)
+            coord_0_resized = np.around(coord[0]*scaling_factor)
+            coord_1_resized = np.around(coord[1]*scaling_factor)
 
 
             if (scaled_size_x < self.out_size) or (scaled_size_y < self.out_size):
                 scaling_factor = self.out_size/float(np.min(image.size))
-                scaled_size_x = round(image.size[0]*scaling_factor)
-                scaled_size_y = round(image.size[1]*scaling_factor)
-                coord_0_resized = round(coord[0]*scaling_factor)
-                coord_1_resized = round(coord[1]*scaling_factor)
+                scaled_size_x = np.around(image.size[0]*scaling_factor)
+                scaled_size_y = np.around(image.size[1]*scaling_factor)
+                coord_0_resized = np.around(coord[0]*scaling_factor)
+                coord_1_resized = np.around(coord[1]*scaling_factor)
 
             im_np = np.asarray(image)
             #im_np = im_np.transpose(1,0,2)    # when we go from pil to numpy array the W and L dimensions are swaped
@@ -617,18 +617,18 @@ class Scale_images_and_coord_always(object):
         if np.random.uniform(-1, 1) < 2:
             scaling_factor = np.random.uniform(self.min_scaling, self.max_scaling)
 
-            scaled_size_x = round(image.size[0]*scaling_factor)
-            scaled_size_y = round(image.size[1]*scaling_factor)
-            coord_0_resized = round(coord[0]*scaling_factor)
-            coord_1_resized = round(coord[1]*scaling_factor)
+            scaled_size_x = np.around(image.size[0]*scaling_factor)
+            scaled_size_y = np.around(image.size[1]*scaling_factor)
+            coord_0_resized = np.around(coord[0]*scaling_factor)
+            coord_1_resized = np.around(coord[1]*scaling_factor)
 
 
             if (scaled_size_x < self.out_size) or (scaled_size_y < self.out_size):
                 scaling_factor = self.out_size/float(np.min(image.size))
-                scaled_size_x = round(image.size[0]*scaling_factor)
-                scaled_size_y = round(image.size[1]*scaling_factor)
-                coord_0_resized = round(coord[0]*scaling_factor)
-                coord_1_resized = round(coord[1]*scaling_factor)
+                scaled_size_x = np.around(image.size[0]*scaling_factor)
+                scaled_size_y = np.around(image.size[1]*scaling_factor)
+                coord_0_resized = np.around(coord[0]*scaling_factor)
+                coord_1_resized = np.around(coord[1]*scaling_factor)
 
             im_np = np.asarray(image)
             #im_np = im_np.transpose(1,0,2)    # when we go from pil to numpy array the W and L dimensions are swaped
@@ -668,10 +668,10 @@ class Scale_images_and_anchor(object):
         else:
             scaling_factor = np.random.uniform(self.min_scaling, self.max_scaling)
 
-        scaled_size_x = round(image.size[0]*scaling_factor)
-        scaled_size_y = round(image.size[1]*scaling_factor)
-        coord_0_resized = round(anchor[0]*scaling_factor)
-        coord_1_resized = round(anchor[1]*scaling_factor)
+        scaled_size_x = np.around(image.size[0]*scaling_factor)
+        scaled_size_y = np.around(image.size[1]*scaling_factor)
+        coord_0_resized = np.around(anchor[0]*scaling_factor)
+        coord_1_resized = np.around(anchor[1]*scaling_factor)
 
         im_np = np.asarray(image)
         #im_np = im_np.transpose(1,0,2)    # when we go from pil to numpy array the W and L dimensions are swaped
@@ -691,23 +691,23 @@ def sampling_anchor_uniform(in_size, out_size, anchor, translation):
     in_x = in_size[0]
     in_y = in_size[1]
 
-    # Sampling around the anchor
+    # Sampling anp.around the anchor
     x_coord = anchor[0] + np.random.uniform(-translation*out_size, translation*out_size)
     y_coord = anchor[1] + np.random.uniform(-translation*out_size, translation*out_size)
 
     if (x_coord > (in_x - out_size/2)):
-        x_coord = round(in_x - out_size/2)
+        x_coord = np.around(in_x - out_size/2)
     elif x_coord < (out_size/2):
-        x_coord = round(out_size/2)
+        x_coord = np.around(out_size/2)
     else:
-        x_coord = round(x_coord)
+        x_coord = np.around(x_coord)
 
     if (y_coord > (in_y - out_size/2)):
-        y_coord = round(in_y - out_size/2)
+        y_coord = np.around(in_y - out_size/2)
     elif y_coord < (out_size/2):
-        y_coord = round(out_size/2)
+        y_coord = np.around(out_size/2)
     else:
-        y_coord = round(y_coord)
+        y_coord = np.around(y_coord)
 
     return (int(x_coord), int(y_coord))
 
@@ -718,29 +718,29 @@ def sampling_anchor_gauss(in_size, out_size, anchor, translation):
     in_x = in_size[0]
     in_y = in_size[1]
 
-    # Sampling around the anchor
+    # Sampling anp.around the anchor
     x_coord = anchor[0]+np.random.normal(0, translation*out_size)
     y_coord = anchor[1]+np.random.normal(0, translation*out_size)
 
     if (x_coord > (in_x - out_size/2)):
-        x_coord = round(in_x - out_size/2)
+        x_coord = np.around(in_x - out_size/2)
     elif x_coord < (out_size/2):
-        x_coord = round(out_size/2)
+        x_coord = np.around(out_size/2)
     else:
-        x_coord = round(x_coord)
+        x_coord = np.around(x_coord)
 
     if (y_coord > (in_y - out_size/2)):
-        y_coord = round(in_y - out_size/2)
+        y_coord = np.around(in_y - out_size/2)
     elif y_coord < (out_size/2):
-        y_coord = round(out_size/2)
+        y_coord = np.around(out_size/2)
     else:
-        y_coord = round(y_coord)
+        y_coord = np.around(y_coord)
 
     return (int(x_coord), int(y_coord))
 
 class anchor_crop_uniform(object):
     """
-    Return a crop around a given anchor
+    Return a crop anp.around a given anchor
 
     """
 
@@ -768,7 +768,7 @@ class anchor_crop_uniform(object):
 
 class anchor_crop_gauss(object):
     """
-    Return a crop around a given anchor
+    Return a crop anp.around a given anchor
 
     """
 
